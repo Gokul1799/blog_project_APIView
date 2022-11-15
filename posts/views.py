@@ -170,29 +170,27 @@ class PublishPost(APIView):
 
 class ListPublish(APIView):
     def get(self,request):
-        #post=Post.objects.all()
-        a=[]
-        unpublished=[]
-        for post in Post.objects.all():
-            if post.published==True:
-                
-                blog=PostSerializer(post)
-                a.append(blog.data)
-            else:
-                blog=PostSerializer(post)
-                unpublished.append(blog.data)
+        print(request.GET)
+        post=Post.objects.all()
+        
+        unpublished=post.filter(published=False)
+        published = post.filter(published=True)
 
-        return Response(a)
+        if 'is_publish' not in request.GET:
+            return Response(status=400,data='error')
+
+        is_publish=int(request.GET['is_publish'])
+
+        if is_publish:
+            serializer=PostSerializer(published, many=True)
+            return Response(serializer.data)
+        else:
+            serializer=PostSerializer(unpublished, many=True)
+            return Response(serializer.data)
 
 
-class ListUnpublished(APIView):
-    def get(self,request):
-        unpublished=[]
-        for post in Post.objects.all():
-            if post.published==False:
-                blog=PostSerializer(post)
-                unpublished.append(blog.data)
-        return Response(unpublished)
+
+
 
 
 

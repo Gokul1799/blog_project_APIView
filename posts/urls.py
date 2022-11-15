@@ -12,5 +12,5 @@ urlpatterns = [
     path('comments/<int:pk>/', views.CommentDetail.as_view()),
     path('post_publish',views.PublishPost.as_view()),
     path('list_publish',views.ListPublish.as_view()),
-    path('list_unpublish',views.ListUnpublished.as_view()),
+    #path('list_unpublish',views.ListUnpublished.as_view()),
 ]
